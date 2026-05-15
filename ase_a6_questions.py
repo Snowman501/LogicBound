@@ -1,4 +1,4 @@
-a6_level_1 = [
+questions = [
     {
         "q": "Technician A says that a digital multimeter set to the DC Volts position is used to check for voltage drop. Technician B says that a voltage drop test is performed with the circuit powered and the load turned on. Who is right?",
         "options": ["A only", "B only", "Both", "Neither"],
@@ -28,5 +28,35 @@ a6_level_1 = [
         "options": ["A only", "B only", "Both", "Neither"],
         "a": "A only",
         "explanation": "CAN-Bus uses differential signaling; the voltages on CAN-H and CAN-L are mirrors of each other (out-of-phase) to cancel out noise."
+    },
+    {
+        "q": "A vehicle with a slow-cranking complaint is being tested. Technician A says a starter current draw test should be performed first. Technician B says a battery voltage recovery test under load determines internal resistance. Who is right?",
+        "options": ["A only", "B only", "Both", "Neither"],
+        "a": "Both",
+        "explanation": "High starter draw points to mechanical binding or a shorted starter motor, while battery load testing isolates whether the source can deliver adequate cranking amps."
+    },
+    {
+        "q": "Technician A says that when testing an alternator output with an oscilloscope, a series of sharp downward spikes indicate an open diode. Technician B says a shorted diode will cause excessive AC ripple voltage on the multimeter. Who is right?",
+        "options": ["A only", "B only", "Both", "Neither"],
+        "a": "Both",
+        "explanation": "An open diode drops output pattern segments on a scope, while a shorted diode leaks alternating current into the DC system, creating AC ripple."
+    },
+    {
+        "q": "An open circuit fault in a standard three-wire linear potentiometer sensor circuit will cause what type of signal value return at the PCM signal line if the reference voltage line drops to ground?",
+        "options": ["Steady 5.0V", "Hard 0.0V drop", "Floating variable voltage", "Blown sensor fuse"],
+        "a": "Hard 0.0V drop",
+        "explanation": "If the 5V reference line opens or shorts to ground before the sensor, the input signal line back to the controller loses all potential, registering a hard 0.0V signal drop."
+    },
+    {
+        "q": "Technician A says that a parasitic current draw test should be performed with the ignition switch turned on. Technician B says that when checking parasitic draw, all vehicle modules must be allowed time to enter sleep mode. Who is right?",
+        "options": ["A only", "B only", "Both", "Neither"],
+        "a": "B only",
+        "explanation": "Parasitic draw testing must be done with the key OFF. Modern network modules take up to 30-45 minutes to go to sleep; pulling fuses prematurely can wake them up."
+    },
+    {
+        "q": "A brake light circuit fuse blows instantly whenever the brake pedal is depressed. Technician A says this indicates a short-to-ground in the power side of the circuit after the brake switch. Technician B says the problem is an open ground circuit at the tail light assembly. Who is right?",
+        "options": ["A only", "B only", "Both", "Neither"],
+        "a": "A only",
+        "explanation": "An open ground causes the circuit to quit working entirely without blowing the fuse. An instant blown fuse when the switch closes confirms a dead short-to-ground on the load side."
     }
 ]
