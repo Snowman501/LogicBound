@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background: #121212; color: white; text-align: center; margin: 0; }
+        #app { padding: 15px; max-width: 450px; margin: auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .card { background: #1e1e1e; padding: 25px; border-radius: 15px; border-top: 5px solid #2980b9; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .btn { background: #333; color: white; border: 1px solid #444; padding: 15px; border-radius: 8px; width: 100%; margin: 8px 0; text-align: left; font-size: 1rem; cursor: pointer; }
+        .start-btn { background: #2980b9; color: white; border: none; padding: 18px; border-radius: 8px; width: 100%; font-weight: bold; font-size: 1.2rem; cursor: pointer; }
+        .disclaimer-text { font-size: 0.8rem; color: #aaa; text-align: left; line-height: 1.4; background: #000; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        #game-ui { display: none; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="safety-page">
+            <h2 style="color:#2980b9">A6 Electrical: Logic & Diagnostics</h2>
+            <div class="disclaimer-text">
+                <b>SHOP SAFETY NOTICE:</b> This is an educational study tool for ASE A6 prep. 
+                Automotive diagnostics involve high-current circuits and sensitive electronics. 
+                Always refer to the official Service Manual. Logic Bound Studios is not liable 
+                for damages or injuries resulting from improper tool use.
+            </div>
+            <button class="start-btn" onclick="startEngine()">I ACCEPT & START ENGINE</button>
+        </div>
+
+        <div id="game-ui">
+            <div id="t" style="color:#ff4757; font-weight:bold; margin-bottom:10px; font-size:1.2rem;">TIME: 60s</div>
+            <div class="card">
+                <p id="q" style="font-size: 1.1rem; line-height: 1.4;"></p>
+                <div id="ops"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const qList = [{"q": "Technician A says that a digital multimeter set to the DC Volts position is used to check for voltage drop. Technician B says that a voltage drop test is performed with the circuit powered and the load turned on. Who is right?", "options": ["A only", "B only", "Both", "Neither"], "a": "Both", "explanation": "Voltage drop testing requires the circuit to be active and under load to measure resistance in the wiring."}, {"q": "Technician A says that Ohm's law states that if resistance increases in a circuit with constant voltage, current flow will decrease. Technician B says that if voltage is doubled and resistance stays the same, current will double. Who is right?", "options": ["A only", "B only", "Both", "Neither"], "a": "Both", "explanation": "Current is directly proportional to voltage and inversely proportional to resistance (I = V / R)."}, {"q": "Technician A says that a short-to-ground before the load will result in increased current flow and likely a blown fuse. Technician B says a short-to-ground after the load will cause the load to stay on regardless of the switch position. Who is right?", "options": ["A only", "B only", "Both", "Neither"], "a": "Both", "explanation": "A short before the load bypasses resistance, spiking current. A short after the load provides a constant ground path, bypassing the switch."}, {"q": "Technician A says that a voltage drop of 0.1V across a connector is generally acceptable. Technician B says that all voltage drop tests should be performed with the component disconnected. Who is right?", "options": ["A only", "B only", "Both", "Neither"], "a": "A only", "explanation": "Voltage drop must be tested with the circuit 'loaded' (connected and ON). Disconnecting it shows open-circuit voltage, which is useless for this test."}, {"q": "Technician A says that a CAN-Bus system uses two wires, CAN-High and CAN-Low, to communicate. Technician B says that the signals on these two wires are identical and in-phase. Who is right?", "options": ["A only", "B only", "Both", "Neither"], "a": "A only", "explanation": "CAN-Bus uses differential signaling; the voltages on CAN-H and CAN-L are mirrors of each other (out-of-phase) to cancel out noise."}];
+        let c = 0, t = 60, timer;
+
+        function startEngine() {
+            document.getElementById('safety-page').style.display = 'none';
+            document.getElementById('game-ui').style.display = 'block';
+            show();
+            timer = setInterval(() => {
+                t--; document.getElementById('t').innerText = "TIME: " + t + "s";
+                if(t <= 0) { clearInterval(timer); alert("⌛ Diagnostic Timeout! Keep studying."); location.reload(); }
+            }, 1000);
+        }
+
+        function show() {
+            if(c >= qList.length) { 
+                clearInterval(timer); 
+                document.getElementById('app').innerHTML = "<h1>🎓 A6 MASTERED!</h1><p>You are ready for the shop floor.</p><button class='start-btn' onclick='location.reload()'>RESTART BUNDLE</button>"; 
+                return; 
+            }
+            const item = qList[c];
+            document.getElementById('q').innerText = item.q;
+            const oDiv = document.getElementById('ops'); oDiv.innerHTML = "";
+            item.options.forEach(o => {
+                const b = document.createElement('button');
+                b.className = "btn";
+                b.innerText = o;
+                b.onclick = () => { 
+                    if(o === item.a) { 
+                        alert("✅ CORRECT\n\n" + item.explanation);
+                        c++; show(); 
+                    } else { 
+                        t -= 10; 
+                        alert("❌ INCORRECT\n\n" + item.explanation);
+                        b.style.borderColor = "#ff4757";
+                    } 
+                };
+                oDiv.appendChild(b);
+            });
+        }
+    </script>
+</body>
+</html>
