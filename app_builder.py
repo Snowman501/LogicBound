@@ -145,6 +145,7 @@ def generate_html():
         .step-num {{ color: var(--blue-glow); font-weight: bold; font-family: monospace; }}
         
         .review-item {{ background: #1c1d22; padding: 12px; border-radius: 6px; margin-top: 10px; border-left: 3px solid var(--incorrect-red); font-size: 14px; }}
+        .translation-text {{ color: #a0aec0; font-style: italic; font-size: 13px; display: block; margin-top: 2px; }}
     </style>
 </head>
 <body>
@@ -194,36 +195,36 @@ def generate_html():
                 <div class="list-container">
                     <div class="list-item">
                         <div class="list-header">🔧 CIRCUIT VOLTAGE DROP METHODOLOGY (LOADED)</div>
-                        <p style="font-size:13px; color:var(--text-muted);">Isolates high resistance in wiring, connections, or switches without taking the harness apart.</p>
+                        <span class="translation-text">(How to find a hidden loose, rusty, or broken wire without pulling the whole car apart)</span>
                         <div class="step-block">
-                            <p><span class="step-num">01.</span> Set DMM to DC Volts (V). Do NOT disconnect any connectors.</p>
-                            <p><span class="step-num">02.</span> Power up the circuit and engage the component load (ON position).</p>
-                            <p><span class="step-num">03.</span> Connect the RED lead to the source side of the connection being verified.</p>
-                            <p><span class="step-num">04.</span> Connect the BLACK lead to the load side of the same connection block.</p>
-                            <p><span class="step-num">05.</span> Read the display. A perfect copper junction shows less than 0.1V. If it reads above 0.2V, high resistance is present inside that connection junction.</p>
+                            <p><span class="step-num">01.</span> Set your Digital Multimeter to DC Volts (V). Keep the circuit completely connected and plugged in.</p>
+                            <p><span class="step-num">02.</span> Turn the vehicle key on and activate the component or load <span style="color:var(--blue-glow);">(make sure current is actually flowing through the device, like turning on the headlights or fuel pump)</span>.</p>
+                            <p><span class="step-num">03.</span> Connect the RED meter lead to the power-delivery side of the wire connector plug.</p>
+                            <p><span class="step-num">04.</span> Connect the BLACK meter lead to the opposite wire side of that same connector block.</p>
+                            <p><span class="step-num">05.</span> Read the meter display. A perfect, clean wire joint will show less than 0.1V. If it reads above 0.2V, there is hidden corrosion or loose pins inside that connector block eating up your electricity.</p>
                         </div>
                     </div>
                     
                     <div class="list-item">
                         <div class="list-header">🔧 DIGITAL FUSE VOLTAGE DROP PARASITIC DRAW RUN</div>
-                        <p style="font-size:13px; color:var(--text-muted);">Locates module battery drain without waking up the vehicle's network modules.</p>
+                        <span class="translation-text">(How to locate what is secretly draining your battery overnight while the car is turned off)</span>
                         <div class="step-block">
-                            <p><span class="step-num">01.</span> Set DMM to DC Millivolts (mV). Key off, doors latched, wait 45 minutes for full network sleep mode.</p>
-                            <p><span class="step-num">02.</span> Touch DMM test probes directly across the two small metal test tabs on the back of the fuse.</p>
-                            <p><span class="step-num">03.</span> Note the mV reading. A reading of 0.0mV indicates zero current flow through that branch circuit.</p>
-                            <p><span class="step-num">04.</span> If millivolts are detected, cross-reference the mV reading with an industry standard fuse conversion chart for that specific fuse type (Mini, ATO, Maxi) to get the exact milliamp parasitic draw.</p>
+                            <p><span class="step-num">01.</span> Set your Multimeter to DC Millivolts (mV). Turn the key OFF, latch the doors, and wait 45 minutes for all computer modules to enter "Sleep Mode".</p>
+                            <p><span class="step-num">02.</span> Touch your meter's metal test probes directly to the two tiny exposed metal test points on the plastic back of the fuse.</p>
+                            <p><span class="step-num">03.</span> Note the mV reading. If it shows 0.0mV, that branch circuit is asleep and drawing zero battery current.</p>
+                            <p><span class="step-num">04.</span> If you see any millivolt numbers, electricity is actively leaking out. Cross-reference that mV number with a fuse chart to find the exact hidden milliamp battery draw without accidentally waking up the vehicle network lines by pulling fuses.</p>
                         </div>
                     </div>
 
                     <div class="list-item">
                         <div class="list-header">🔧 CONTROLLER AREA NETWORK (CAN) RESISTANCE BENCH CHECK</div>
-                        <p style="font-size:13px; color:var(--text-muted);">Verifies data bus wire integrity and matching terminating resistor loops.</p>
+                        <span class="translation-text">(How to test if the main computer communication network cables are broken or shorted out)</span>
                         <div class="step-block">
-                            <p><span class="step-num">01.</span> Disconnect the negative battery cable to clear floating voltage potentials from the data network lines.</p>
-                            <p><span class="step-num">02.</span> Set DMM to Ohms (Ω). Access the DLC (Data Link Connector) port frame.</p>
-                            <p><span class="step-num">03.</span> Connect test leads across Pin 6 (CAN High) and Pin 14 (CAN Low).</p>
-                            <p><span class="step-num">04.</span> Nominal reading must be exactly 60 Ω (Two 120 Ω resistors in parallel loop configuration).</p>
-                            <p><span class="step-num">05.</span> A reading of 120 Ω indicates an open circuit in one of the terminal resistor modules or a severed wire branch.</p>
+                            <p><span class="step-num">01.</span> Disconnect the negative battery cable to clear any stray electrical signals from the communication lines.</p>
+                            <p><span class="step-num">02.</span> Set your Multimeter to Ohms (Ω). Locate the OBD-II diagnostic plug under the driver's side dashboard.</p>
+                            <p><span class="step-num">03.</span> Connect your test leads across Pin 6 (CAN-High line) and Pin 14 (CAN-Low line).</p>
+                            <p><span class="step-num">04.</span> A normal network loop must read exactly 60 Ω <span style="color:var(--blue-glow);">(this proves two internal 120 Ω matching system resistors are wired correctly in parallel)</span>.</p>
+                            <p><span class="step-num">05.</span> If the display reads 120 Ω, one of the communication wires is severed, or a major system module has completely disconnected from the network train.</p>
                         </div>
                     </div>
                 </div>
@@ -276,15 +277,56 @@ def generate_html():
             evt.currentTarget.classList.add('active');
         }}
 
+        // Master Accessible Code Library Array Asset Matrix
         const codeLibrary = [
-            {{ code: "P0171", desc: "System Too Lean (Bank 1)", symp: "MIL Illuminated, lean hesitation, rough idle, fuel trims above +15%.", cause: "Vacuum distribution leaks, unmetered air leaking past MAF boot, weak fuel pump delivery, or restricted fuel injectors." }},
-            {{ code: "P0174", desc: "System Too Lean (Bank 2)", symp: "Engine sag under load, lazy oxygen sensor tracking, surging cruise speeds.", cause: "Intake manifold gasket leakage specific to Bank 2 plenum base, contaminated fuel distribution block modules." }},
-            {{ code: "P0300", desc: "Random/Multiple Cylinder Misfire Detected", symp: "Flashing Check Engine Light, severe engine rumble, catalytic converter overheating.", cause: "Fluctuating system fuel pressure delivery, broad vacuum leak distributions, bad batch fuel." }},
-            {{ code: "P0302", desc: "Cylinder 2 Misfire Detected", symp: "Rhythmic engine stumble, unburned fuel odor exiting tailpipe.", cause: "Defective Cylinder 2 secondary ignition coil pack, fouled plug gap, shorted driver circuit inside PCM, or dead cylinder injector coil." }},
-            {{ code: "P0420", desc: "Catalytic Converter System Efficiency Below Threshold (Bank 1)", symp: "None or minor tailpipe odor, failed emissions probe readings.", cause: "Exhaust leaks upstream of converter, oil contamination from leaking valve guide seals, or degraded internal catalyst substrate block." }},
-            {{ code: "P0562", desc: "System Voltage Low", symp: "Dim dash layouts, erratic transmission shift delays, global module network drops.", cause: "Failing alternator internal field regulator, slip ring brush wear, loose belt, corroded main power cables." }},
-            {{ code: "U0100", desc: "Lost Communication With ECM/PCM", symp: "No-crank condition, instrument cluster instruments freeze, absolute scan data link loss.", cause: "Open or shorted network wiring trunk line, blown electronic engine control module main fuse link, or blown ground strap." }},
-            {{ code: "U0155", desc: "Lost Communication With Instrument Panel Cluster (IPC) Control Module", symp: "Gauge pointers freeze at zero position, warning lights illuminate, odometer displays dashes.", cause: "Loose connector pins on back of dashboard frame cluster layout, data bus branch line shorted to ground." }}
+            {{ 
+                code: "P0171", 
+                desc: "System Too Lean (Bank 1) <span class='translation-text'>(The computer detects way too much raw air or not enough fuel entering the cylinders)</span>", 
+                symp: "Check Engine Light on, engine hesitation or sagging on acceleration, rough shaky idling.", 
+                cause: "Unmetered vacuum air leaks <span style='color:var(--blue-glow);'>(air sneaking into the engine uncounted)</span>, a split rubber intake boot, a weak fuel pump running low on pressure, or dirty/clogged fuel fuel injectors." 
+            }},
+            {{ 
+                code: "P0174", 
+                desc: "System Too Lean (Bank 2) <span class='translation-text'>(Too much raw air or weak fuel levels on the second cylinder bank side)</span>", 
+                symp: "Power loss when driving up hills, check engine light flashing, lazy low-performance throttle response.", 
+                cause: "Intake manifold plenum seal leak <span style='color:var(--blue-glow);'>(bad mounting gaskets letting outside air bypass the filters)</span>, or restricted fuel delivery blocks." 
+            }},
+            {{ 
+                code: "P0300", 
+                desc: "Random/Multiple Cylinder Misfire Detected <span class='translation-text'>(Cylinders are failing to explode/fire properly at unpredictable random intervals)</span>", 
+                symp: "Heavy engine shaking, flashing Check Engine Light, severe engine bucking, raw gas smell out the tailpipe.", 
+                cause: "Unstable vehicle fuel pressure delivery, massive broad vacuum leaks affecting all cylinders, or a bad batch of water-contaminated fuel." 
+            }},
+            {{ 
+                code: "P0302", 
+                desc: "Cylinder 2 Misfire Detected <span class='translation-text'>(Cylinder Number 2 is specifically failing to create internal spark or explosion)</span>", 
+                symp: "Rhythmic engine chug or skip, rough idle, loss of cruising power.", 
+                cause: "Defective Cylinder 2 secondary ignition coil pack <span style='color:var(--blue-glow);'>(the component that converts low battery voltage into high-energy spark voltage)</span>, fouled or cracked spark plug, or a broken fuel injector wire." 
+            }},
+            {{ 
+                code: "P0420", 
+                desc: "Catalytic Converter System Efficiency Below Threshold (Bank 1) <span class='translation-text'>(The emission exhaust filter device is failing its cleanup efficiency test)</span>", 
+                symp: "Usually zero driving symptoms, potential sulfur/rotten-egg odor coming from the exhaust pipe under load.", 
+                cause: "Exhaust leaks upstream <span style='color:var(--blue-glow);'>(cracks before the converter drawing in fake air and tricking the computer sensors)</span>, engine misfires melting the converter internals, or old degraded core metal substrate layers." 
+            }},
+            {{ 
+                code: "P0562", 
+                desc: "System Voltage Low <span class='translation-text'>(The car's main electrical operating voltage has dropped way below standard limits)</span>", 
+                symp: "Dim dashboard lights, erratic or delayed transmission shifts, global communication module dropouts.", 
+                cause: "Failing alternator internal field voltage regulator <span style='color:var(--blue-glow);'>(the device that controls the alternator's output voltage charging level)</span>, loose drive belt, or heavily corroded main battery ground cables." 
+            }},
+            {{ 
+                code: "U0100", 
+                desc: "Lost Communication With ECM/PCM <span class='translation-text'>(The main engine control computer has completely dropped off the electronic network line)</span>", 
+                symp: "Starter motor won't crank or turn over, dashboard instrument needles freeze completely, scan tool reads 'No Link'.", 
+                cause: "Open or shorted network data trunk lines, a blown main electronic engine control fuse block link, or a broken main chassis frame ground strap." 
+            }},
+            {{ 
+                code: "U0155", 
+                desc: "Lost Communication With Instrument Panel Cluster Control Module <span class='translation-text'>(The dashboard display gauges have lost their connection network line back to the vehicle)</span>", 
+                symp: "Speedometer and tachometer needles freeze instantly at zero, warning lights lock on, odometer display goes blank.", 
+                cause: "Loose or backed-out electrical connector pins on the back of the dashboard frame housing, or a severed data wire branch." 
+            }}
         ];
 
         function searchCodes() {{
@@ -304,9 +346,10 @@ def generate_html():
                 const div = document.createElement('div');
                 div.className = 'list-item';
                 div.innerHTML = `
-                    <div class="list-header">⚠️ ${{item.code}} - ${{item.desc}}</div>
-                    <div style="font-size:13px; margin: 4px 0;"><span style="color:var(--text-muted); font-weight:bold;">Symptom:</span> ${{item.symp}}</div>
-                    <div style="font-size:13px;"><span style="color:var(--blue-glow); font-weight:bold;">Suspected Fault Side:</span> ${{item.cause}}</div>
+                    <div class="list-header">⚠️ CODE: ${{item.code}}</div>
+                    <div style="font-size:14px; margin: 6px 0; font-weight:bold; color:var(--text-main);">${{item.desc}}</div>
+                    <div style="font-size:13px; margin: 4px 0;"><span style="color:var(--text-muted); font-weight:bold;">Real Symptoms:</span> ${{item.symp}}</div>
+                    <div style="font-size:13px;"><span style="color:var(--blue-glow); font-weight:bold;">Suspected Fault Root Cause:</span> ${{item.cause}}</div>
                 `;
                 container.appendChild(div);
             }});
@@ -417,7 +460,6 @@ def generate_html():
         function restartRig() {{
             currentIdx = 0; score = 0; missedReport = [];
             document.getElementById('end-screen').classList.add('hidden');
-            document.getElementById('splash-screen').classList.open;
             document.getElementById('splash-screen').classList.remove('hidden');
         }}
     </script>
@@ -430,12 +472,12 @@ def generate_html():
     
     with open(output_path, 'w') as f:
         f.write(html_content)
-    print("\n⚡️ SHATTERSCAN DATA CORE SECURED: String layout formatting fault bypass successful.")
+    print("\n⚡️ SHATTERSCAN MASTER EXPANSION COMPLETE: Public-accessible definitions secured.")
 
     zip_name = 'A6_Master_Study_Pack.zip'
     with zipfile.ZipFile(zip_name, 'w') as zipf:
         zipf.write(output_path, os.path.basename(output_path))
-    print(f"📦 PACKAGING COMPLETE: {zip_name} shipped to output warehouse.")
+    print(f"📦 PACKAGING COMPLETE: {zip_name} shipped to warehouse output.")
 
 if __name__ == '__main__':
     generate_html()
