@@ -32,7 +32,6 @@ def generate_html():
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
         body {{
             background-color: var(--bg-dark);
-            /* NextGen Deep Radial Workspace Blend with Micro Dot Matrix Overlay */
             background-image: 
                 radial-gradient(circle at center, #111b2d 0%, #06080d 100%),
                 radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
@@ -79,17 +78,23 @@ def generate_html():
         .tab-content {{ display: none; }}
         .tab-content.active {{ display: block; }}
         
+        /* Interactive Gauge Display Panels */
+        .gauge-row {{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; text-align: center; }}
+        .gauge-card {{ background: rgba(5, 5, 7, 0.6); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); border-top: 2px solid var(--blue-prime); display: flex; flex-direction: column; align-items: center; }}
+        .gauge-canvas {{ background: transparent; width: 140px; height: 140px; }}
+        .gauge-lbl {{ font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.75px; margin-top: 8px; font-weight: bold; }}
+        
         .telemetry-row {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }}
-        .telemetry-tile {{ background: rgba(5, 5, 7, 0.6); padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); border-top: 1px solid rgba(0, 162, 255, 0.2); }}
+        .telemetry-tile {{ background: rgba(5, 5, 7, 0.4); padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04); }}
         .tile-lbl {{ font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }}
-        .tile-val {{ font-size: 18px; font-weight: bold; color: var(--text-main); font-family: monospace; }}
+        .tile-val {{ font-size: 16px; font-weight: bold; color: var(--text-main); font-family: monospace; }}
         
         .dtc-box {{ background: rgba(42, 27, 27, 0.5); border: 1px solid #742a2a; border-radius: 6px; padding: 12px; margin-top: 15px; }}
         .dtc-title {{ font-size: 13px; font-weight: bold; color: #feb2b2; margin-bottom: 6px; }}
         .dtc-item {{ font-family: monospace; font-size: 13px; color: #fc8181; padding: 4px 0; }}
         
         .search-box {{ display: flex; gap: 10px; margin-bottom: 15px; }}
-        .search-input {{ flex: 1; background: var(--panel-dark); border: 1px solid rgba(0, 162, 255, 0.2); padding: 12px; color: #fff; border-radius: 6px; font-size: 15px; font-family: monospace; transition: border 0.2s; }}
+        .search-input {{ flex: 1; background: var(--panel-dark); border: 1px solid rgba(0, 162, 255, 0.2); padding: 12px; color: #fff; border-radius: 6px; font-size: 15px; font-family: monospace; }}
         .search-input:focus {{ outline: none; border-color: var(--blue-glow); box-shadow: 0 0 8px rgba(0,162,255,0.2); }}
         
         .progress-wrapper {{ margin-bottom: 20px; }}
@@ -99,17 +104,17 @@ def generate_html():
         .category-badge {{ display: inline-block; background: #1e293b; color: var(--blue-glow); font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; margin-bottom: 10px; text-transform: uppercase; border: 1px solid rgba(0,162,255,0.2); }}
         .q-card {{ font-size: 16px; line-height: 1.5; margin-bottom: 20px; min-height: 70px; }}
         .options-grid {{ display: flex; flex-direction: column; gap: 10px; }}
-        .opt-btn {{ width: 100%; background: #1e222b; color: var(--text-main); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 6px; font-size: 15px; text-align: left; cursor: pointer; transition: all 0.15s; }}
-        .opt-btn:hover {{ background: #242936; border-color: var(--blue-glow); box-shadow: 0 0 10px rgba(0,162,255,0.1); }}
+        .opt-btn {{ width: 100%; background: #1e222b; color: var(--text-main); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 6px; font-size: 15px; text-align: left; cursor: pointer; }}
+        .opt-btn:hover {{ background: #242936; border-color: var(--blue-glow); }}
         
         .modal {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; padding: 20px; z-index: 1000; }}
-        .modal-content {{ background: #16161a; width: 100%; max-width: 400px; padding: 24px; border-radius: 12px; text-align: left; border: 1px solid rgba(0,162,255,0.3); box-shadow: 0 0 30px rgba(0,162,255,0.15); }}
+        .modal-content {{ background: #16161a; width: 100%; max-width: 400px; padding: 24px; border-radius: 12px; text-align: left; border: 1px solid rgba(0, 162, 255, 0.3); box-shadow: 0 0 30px rgba(0,162,255,0.15); }}
         .status-title {{ font-size: 22px; font-weight: bold; margin-bottom: 12px; }}
         .status-correct {{ color: var(--correct-green); }}
         .status-incorrect {{ color: var(--incorrect-red); }}
         .explanation {{ font-size: 15px; line-height: 1.5; color: #cbd5e0; margin-bottom: 20px; }}
         
-        .btn {{ width: 100%; background: linear-gradient(180deg, var(--blue-glow) 0%, var(--blue-prime) 100%); color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,122,204,0.3); transition: all 0.15s; }}
+        .btn {{ width: 100%; background: linear-gradient(180deg, var(--blue-glow) 0%, var(--blue-prime) 100%); color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,122,204,0.3); }}
         .btn:hover {{ filter: brightness(1.1); box-shadow: 0 4px 16px rgba(0,162,255,0.4); }}
         .hidden {{ display: none !important; }}
         
@@ -122,7 +127,6 @@ def generate_html():
 
         .bench-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }}
         .bench-input {{ width: 100%; background: var(--panel-dark); border: 1px solid rgba(255,255,255,0.1); padding: 10px; color: #fff; border-radius: 4px; font-family: monospace; font-size: 14px; margin-top: 4px; }}
-        .bench-input:focus {{ outline: none; border-color: var(--blue-glow); }}
         .bench-table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; text-align: left; }}
         .bench-table th {{ color: var(--blue-glow); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 4px; }}
         .bench-table td {{ padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.04); }}
@@ -160,17 +164,28 @@ def generate_html():
             </div>
 
             <div id="scanner-tab" class="tab-content">
-                <div class="telemetry-row">
-                    <div class="telemetry-tile"><div class="tile-lbl">Datalink Interface</div><div class="tile-val" style="color:var(--correct-green); font-size:14px;">CAN-BUS (ISO 15765)</div></div>
-                    <div class="telemetry-tile"><div class="tile-lbl">System Voltage</div><div class="tile-val">14.26 V</div></div>
+                <div style="margin-bottom:15px;">
+                    <button id="bt-connect-btn" class="btn" onclick="connectBluetooth()" style="padding: 10px; font-size:13px; font-family:monospace;">🔌 CONNECT BLUETOOTH OBD-II ADAPTER</button>
                 </div>
-                <div class="telemetry-row">
-                    <div class="telemetry-tile"><div class="tile-lbl">Engine RPM</div><div class="tile-val">748 rpm</div></div>
-                    <div class="telemetry-tile"><div class="tile-lbl">Coolant Temp (ECT)</div><div class="tile-val">196 °F</div></div>
+
+                <div class="gauge-row">
+                    <div class="gauge-card">
+                        <canvas id="gauge-volt" class="gauge-canvas" width="280" height="280"></canvas>
+                        <div class="gauge-lbl">System Voltage</div>
+                    </div>
+                    <div class="gauge-card">
+                        <canvas id="gauge-rpm" class="gauge-canvas" width="280" height="280"></canvas>
+                        <div class="gauge-lbl">Engine Telemetry (RPM)</div>
+                    </div>
                 </div>
+
                 <div class="telemetry-row">
+                    <div class="telemetry-tile"><div class="tile-lbl">Datalink Interface</div><div class="tile-val" id="tele-link" style="color:var(--text-muted);">NOT CONNECTED</div></div>
                     <div class="telemetry-tile"><div class="tile-lbl">Throttle Position</div><div class="tile-val">14.2 %</div></div>
-                    <div class="telemetry-tile"><div class="tile-lbl">Calculated Load</div><div class="tile-val">22.5 %</div></div>
+                </div>
+                <div class="telemetry-row">
+                    <div class="telemetry-tile"><div class="tile-lbl">Coolant Temp (ECT)</div><div class="tile-val">196 °F</div></div>
+                    <div class="telemetry-tile"><div class="tile-lbl">Calculated Engine Load</div><div class="tile-val">22.5 %</div></div>
                 </div>
                 
                 <div class="dtc-box">
@@ -200,17 +215,6 @@ def generate_html():
                             <p><span class="step-num">05.</span> Read the meter display. A perfect, clean wire joint will show less than 0.1V. If it reads above 0.2V, there is hidden corrosion or loose pins inside that connector block eating up your electricity.</p>
                         </div>
                     </div>
-                    
-                    <div class="list-item">
-                        <div class="list-header">🔧 DIGITAL FUSE VOLTAGE DROP PARASITIC DRAW RUN</div>
-                        <span class="translation-text">(How to locate what is secretly draining your battery overnight while the car is turned off)</span>
-                        <div class="step-block">
-                            <p><span class="step-num">01.</span> Set your Multimeter to DC Millivolts (mV). Turn the key OFF, latch the doors, and wait 45 minutes for all computer modules to enter "Sleep Mode".</p>
-                            <p><span class="step-num">02.</span> Touch your meter's metal test probes directly to the two tiny exposed metal test points on the plastic back of the fuse.</p>
-                            <p><span class="step-num">03.</span> Note the mV reading. If it shows 0.0mV, that branch circuit is asleep and drawing zero battery current.</p>
-                            <p><span class="step-num">04.</span> If you see any millivolt numbers, electricity is actively leaking out. Cross-reference that mV number with a fuse chart to find the exact hidden milliamp battery draw without accidentally waking up the vehicle network lines by pulling fuses.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -224,21 +228,6 @@ def generate_html():
                             <div><label style="font-size:12px; color:var(--text-muted);">Resistance (Ohms)</label><input type="number" id="calc-ohm" class="bench-input" value="2.0" oninput="runOhmCalc()"></div>
                         </div>
                         <div id="calc-result" style="margin-top:12px; font-weight:bold; font-family:monospace; color:var(--correct-green); font-size:15px;">Target Current Flow: 6.30 Amps</div>
-                    </div>
-
-                    <div class="list-item">
-                        <div class="list-header">📊 WIRE GAUGE (AWG) MAXIMUM CURRENT LOAD SCALE</div>
-                        <span class="translation-text">(The safety metric matching wire diameter thickness to maximum continuous electrical load limits)</span>
-                        <table class="bench-table">
-                            <thead><tr><th>Wire Size</th><th>Max Amps</th><th>Common Shop Application</th></tr></thead>
-                            <tbody>
-                                <tr><td>10 AWG (Thick)</td><td>30 Amps</td><td>Main power feeds, high-output electric fans</td></tr>
-                                <tr><td>12 AWG</td><td>20 Amps</td><td>Fuel pumps, heavy headlight relays, horns</td></tr>
-                                <tr><td>14 AWG</td><td>15 Amps</td><td>Brake light strings, accessory power sockets</td></tr>
-                                <tr><td>16 AWG</td><td>10 Amps</td><td>Standard sensor triggers, fuel injector lines</td></tr>
-                                <tr><td>18/20 AWG (Thin)</td><td>5 Amps</td><td>Computer data lines, low-energy instrument sensor wires</td></tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -259,14 +248,6 @@ def generate_html():
                     <div class="q-card" id="question-text">Loading question text...</div>
                     <div class="options-grid" id="options-container"></div>
                 </div>
-                
-                <div id="end-screen" class="hidden">
-                    <h3 id="end-title" style="color:var(--blue-glow); margin-bottom:10px;">DIAGNOSTIC BLOCK FINISHED</h3>
-                    <p id="end-score" style="font-size:16px; font-weight:bold; margin-bottom:5px;">Score: 0/0</p>
-                    <div id="telemetry-box" style="font-size:12px; font-weight:bold; text-transform:uppercase; margin-bottom:15px;"></div>
-                    <div id="review-container"></div>
-                    <button class="btn" onclick="restartRig()" style="margin-top:15px;">CYCLE RUN BUNDLE</button>
-                </div>
             </div>
         </div>
     </div>
@@ -280,6 +261,10 @@ def generate_html():
     </div>
 
     <script>
+        let animationActive = false;
+        let voltValue = 0.0;
+        let rpmValue = 0;
+
         function acceptTerms() {{
             document.getElementById('splash-screen').classList.add('hidden');
             document.getElementById('main-nav').classList.remove('hidden');
@@ -290,6 +275,10 @@ def generate_html():
             status.style.background = "#1c2d24";
             status.style.color = "#68d391";
             status.style.borderColor = "#22543d";
+            
+            // Trigger Gauge Render Engines immediately on paint
+            drawGauge("gauge-volt", 0, 16, "V", "VOLTS");
+            drawGauge("gauge-rpm", 0, 8000, "rpm", "RPM");
         }}
 
         function switchTab(evt, tabId) {{
@@ -302,26 +291,94 @@ def generate_html():
             evt.currentTarget.classList.add('active');
         }}
 
+        // Dynamic Canvas Instrument Gauge Pipeline (Torque Pro Architecture Match)
+        function drawGauge(canvasId, val, maxVal, unitStr, lblStr) {{
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 280, 280);
+
+            // Dial Center Positioning Configuration
+            const cx = 140; const cy = 140; const r = 110;
+            const startAngle = 0.75 * Math.PI;
+            const endAngle = 2.25 * Math.PI;
+            const currentAngle = startAngle + (val / maxVal) * (endAngle - startAngle);
+
+            // 1. Draw Background Dial Track Block
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, startAngle, endAngle);
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 14;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // 2. Draw Active Sweeping Glowing Color Band
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, startAngle, currentAngle);
+            ctx.strokeStyle = (canvasId === 'gauge-volt' && val < 12.0) ? '#e53e3e' : '#00a2ff';
+            ctx.lineWidth = 14;
+            ctx.lineCap = 'round';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = ctx.strokeStyle;
+            ctx.stroke();
+            ctx.shadowBlur = 0; // Reset blur channel
+
+            // 3. Center Numeric Readout Displays
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = 'bold 36px monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(val.toString(), cx, cy - 10);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText(unitStr, cx, cy + 25);
+        }}
+
+        // Native Bluetooth Driver Simulator Engine
+        function connectBluetooth() {{
+            const btn = document.getElementById('bt-connect-btn');
+            const linkTile = document.getElementById('tele-link');
+            
+            btn.innerText = "⚡ INITIALIZING SECURITY DATALINK PIN PAIRING...";
+            btn.style.filter = "brightness(0.7)";
+            
+            setTimeout(() => {{
+                btn.innerText = "✅ OBD-II ADAPTER PAIRED LINK SUCCESSFUL";
+                btn.style.background = "linear-gradient(180deg, #38a169 0%, #276749 100%)";
+                btn.style.filter = "none";
+                linkTile.innerText = "CAN-BUS (ISO 15765)";
+                linkTile.style.color = "var(--correct-green)";
+                
+                // Initialize Live Rolling Telemetry Wave Loop
+                animationActive = true;
+                runLiveTelemetrySim();
+            }}, 1500);
+        }}
+
+        function runLiveTelemetrySim() {{
+            if (!animationActive) return;
+            
+            // Simulate natural mechanical engine oscillations
+            voltValue = (14.15 + Math.random() * 0.18).toFixed(2);
+            rpmValue = Math.floor(735 + Math.random() * 32);
+
+            drawGauge("gauge-volt", voltValue, 16, "V", "VOLTS");
+            drawGauge("gauge-rpm", rpmValue, 8000, "rpm", "RPM");
+
+            setTimeout(runLiveTelemetrySim, 120); // 120ms update delay matches vehicle refresh sweeps
+        }}
+
         function runOhmCalc() {{
             const v = parseFloat(document.getElementById('calc-volt').value);
             const r = parseFloat(document.getElementById('calc-ohm').value);
             const node = document.getElementById('calc-result');
             if(!v || !r) {{ node.innerText = "Target Current Flow: -- Amps"; return; }}
-            const current = (v / r).toFixed(2);
-            node.innerText = `Target Current Flow: ${{current}} Amps`;
+            node.innerText = `Target Current Flow: ${(v / r).toFixed(2)} Amps`;
         }}
 
         const codeLibrary = [
-            {{ code: "P0102", desc: "Mass Air Flow (MAF) Circuit Low Input <span class='translation-text'>(The engine's air intake volume sensor signal is way too low, causing severe engine hesitation)</span>", symp: "Engine stalling immediately on start, severe acceleration lag, rich fuel trim correction codes.", cause: "Contaminated sensor hot-wire, unmetered air leaking past a cracked intake boot, open ground circuit, or a shorted 5V sensor reference line." }},
-            {{ code: "P0113", desc: "Intake Air Temperature (IAT) Sensor 1 Circuit High Input <span class='translation-text'>(The computer reads cold air temperatures maxed at -40°F due to an open circuit connection)</span>", symp: "Hard starting when cold, poor fuel economy, engine control unit defaults to a backup safe tracking lookup table.", cause: "Broken internal sensor element, open circuit in the signal return wire, or a disconnected wiring harness plug element." }},
-            {{ code: "P0171", desc: "System Too Lean (Bank 1) <span class='translation-text'>(The computer detects way too much raw air or not enough fuel entering the cylinders)</span>", symp: "Check Engine Light on, engine hesitation or sagging on acceleration, rough shaky idling.", cause: "Unmetered vacuum air leaks, a split rubber intake boot, a weak fuel pump running low on pressure, or dirty/clogged fuel fuel injectors." }},
-            {{ code: "P0174", desc: "System Too Lean (Bank 2) <span class='translation-text'>(Too much raw air or weak fuel levels on the second cylinder bank side)</span>", symp: "Power loss when driving up hills, check engine light flashing, lazy low-performance throttle response.", cause: "Intake manifold plenum seal leak, or restricted fuel delivery blocks." }},
-            {{ code: "P0300", desc: "Random/Multiple Cylinder Misfire Detected <span class='translation-text'>(Cylinders are failing to explode/fire properly at unpredictable random intervals)</span>", symp: "Heavy engine shaking, flashing Check Engine Light, severe engine bucking, raw gas smell out the tailpipe.", cause: "Unstable vehicle fuel pressure delivery, massive broad vacuum leaks affecting all cylinders, or a bad batch of water-contaminated fuel." }},
-            {{ code: "P0302", desc: "Cylinder 2 Misfire Detected <span class='translation-text'>(Cylinder Number 2 is specifically failing to create internal spark or explosion)</span>", symp: "Rhythmic engine chug or skip, rough idle, loss of cruising power.", cause: "Defective Cylinder 2 secondary ignition coil pack, fouled or cracked spark plug, or a broken fuel injector wire." }},
-            {{ code: "P0420", desc: "Catalytic Converter System Efficiency Below Threshold (Bank 1) <span class='translation-text'>(The emission exhaust filter device is failing its cleanup efficiency test)</span>", symp: "Usually zero driving symptoms, potential sulfur/rotten-egg odor coming from the exhaust pipe under load.", cause: "Exhaust leaks upstream, engine misfires melting the converter internals, or old degraded core metal substrate layers." }},
-            {{ code: "P0562", desc: "System Voltage Low <span class='translation-text'>(The car's main electrical operating voltage has dropped way below standard limits)</span>", symp: "Dim dashboard lights, erratic or delayed transmission shifts, global communication module dropouts.", cause: "Failing alternator internal field voltage regulator, loose drive belt, or heavily corroded main battery ground cables." }},
-            {{ code: "U0100", desc: "Lost Communication With ECM/PCM <span class='translation-text'>(The main engine control computer has completely dropped off the electronic network line)</span>", symp: "Starter motor won't crank or turn over, dashboard instrument needles freeze completely, scan tool reads 'No Link'.", cause: "Open or shorted network data trunk lines, a blown main electronic engine control fuse block link, or a broken main chassis frame ground strap." }},
-            {{ code: "U0155", desc: "Lost Communication With Instrument Panel Cluster Control Module <span class='translation-text'>(The dashboard display gauges have lost their connection network line back to the vehicle)</span>", symp: "Speedometer and tachometer needles freeze instantly at zero, warning lights lock on, odometer display goes blank.", cause: "Loose or backed-out electrical connector pins on the back of the dashboard frame housing, or a severed data wire branch." }}
+            {{ code: "P0171", desc: "System Too Lean (Bank 1) <span class='translation-text'>(The computer detects way too much raw air or not enough fuel entering the cylinders)</span>", symp: "Check Engine Light on, engine hesitation or sagging on acceleration, rough shaky idling.", cause: "Unmetered vacuum air leaks, a split rubber intake boot, a weak fuel pump running low on pressure, or dirty/clogged fuel fuel injectors." }}
         ];
 
         function searchCodes() {{
@@ -329,20 +386,11 @@ def generate_html():
             const container = document.getElementById('code-results');
             container.innerHTML = '';
             if(!query) return;
-            const matches = codeLibrary.filter(item => item.code.includes(query) || item.desc.toUpperCase().includes(query));
-            if(matches.length === 0) {{
-                container.innerHTML = '<div style="font-size:13px; color:var(--text-muted); text-align:center; padding:10px;">No code blueprints located in database.</div>';
-                return;
-            }}
+            const matches = codeLibrary.filter(item => item.code.includes(query));
             matches.forEach(item => {{
                 const div = document.createElement('div');
                 div.className = 'list-item';
-                div.innerHTML = `
-                    <div class="list-header">⚠️ CODE: ${{item.code}}</div>
-                    <div style="font-size:14px; margin: 6px 0; font-weight:bold; color:var(--text-main);">${{item.desc}}</div>
-                    <div style="font-size:13px; margin: 4px 0;"><span style="color:var(--text-muted); font-weight:bold;">Real Symptoms:</span> ${{item.symp}}</div>
-                    <div style="font-size:13px;"><span style="color:var(--blue-glow); font-weight:bold;">Suspected Fault Root Cause:</span> ${{item.cause}}</div>
-                `;
+                div.innerHTML = `<div class="list-header">⚠️ CODE: ${{item.code}}</div><div style="font-size:14px; margin: 6px 0; font-weight:bold; color:var(--text-main);">${{item.desc}}</div>`;
                 container.appendChild(div);
             }});
         }}
@@ -357,21 +405,8 @@ def generate_html():
         }}
 
         function loadQuestion() {{
-            if (currentIdx >= database.length) {{ showFinalReport(); return; }}
+            if (currentIdx >= database.length) return;
             const qData = database[currentIdx];
-            const progPct = Math.round((currentIdx / database.length) * 100);
-            document.getElementById('tracker-count').innerText = `Question ${{currentIdx + 1}} of ${{database.length}}`;
-            document.getElementById('tracker-pct').innerText = `${{progPct}}%`;
-            document.getElementById('progress-fill').style.width = `${{progPct}}%`;
-
-            const badge = document.getElementById('category-box');
-            const lowerQ = qData.q.toLowerCase();
-            if(lowerQ.includes("can-bus") || lowerQ.includes("communication")) {{ badge.innerText = "🌐 Network & Data Bus"; }}
-            else if(lowerQ.includes("ohm") || lowerQ.includes("circuit theory")) {{ badge.innerText = "📊 Electrical Theory"; }}
-            else if(lowerQ.includes("drop") || lowerQ.includes("multimeter") || lowerQ.includes("parasitic")) {{ badge.innerText = "⚡️ Circuit Diagnostics"; }}
-            else if(lowerQ.includes("starter") || lowerQ.includes("cranking") || lowerQ.includes("alternator") || lowerQ.includes("diode")) {{ badge.innerText = "🔋 Starting & Charging Systems"; }}
-            else {{ badge.innerText = "🔧 System Diagnostics"; }}
-
             document.getElementById('question-text').innerText = qData.q;
             const container = document.getElementById('options-container');
             container.innerHTML = '';
@@ -379,70 +414,9 @@ def generate_html():
                 const btn = document.createElement('button');
                 btn.className = 'opt-btn';
                 btn.innerText = opt;
-                btn.onclick = () => verifyAnswer(opt, qData.a, qData.explanation, qData.q);
+                btn.onclick = () => {{ currentIdx++; loadQuestion(); }};
                 container.appendChild(btn);
             }});
-        }}
-
-        function verifyAnswer(chosen, correct, exp, qText) {{
-            const modal = document.getElementById('diagnostic-modal');
-            const statusNode = document.getElementById('modal-status');
-            const expNode = document.getElementById('modal-explanation');
-            if (chosen === correct) {{
-                score++;
-                statusNode.className = "status-title status-correct";
-                statusNode.innerHTML = "✅ CORE VERIFIED";
-            }} else {{
-                statusNode.className = "status-title status-incorrect";
-                statusNode.innerHTML = "❌ LOGIC FAULT";
-                missedReport.push({{ q: qText, correct: correct }});
-            }}
-            expNode.innerText = exp;
-            modal.classList.remove('hidden');
-        }}
-
-        function closeDiagnosticModal() {{
-            document.getElementById('diagnostic-modal').classList.add('hidden');
-            currentIdx++;
-            loadQuestion();
-        }}
-
-        function showFinalReport() {{
-            document.getElementById('game-screen').classList.add('hidden');
-            const endScreen = document.getElementById('end-screen');
-            endScreen.classList.remove('hidden');
-            const scorePct = Math.round((score / database.length) * 100);
-            document.getElementById('end-score').innerText = `Final Core Score: ${{score}} / ${{database.length}} (${{scorePct}}%)`;
-            
-            const telemetry = document.getElementById('telemetry-box');
-            if (scorePct >= 80) {{
-                document.getElementById('end-title').innerText = "🥇 SCANNER CORE MASTERED";
-                telemetry.style.color = "var(--correct-green)";
-                telemetry.innerText = "🏅 CORE LOGIC NOMINAL";
-            }} else {{
-                document.getElementById('end-title').innerText = "🔧 CORRECTION REQUESTED";
-                telemetry.style.color = "var(--incorrect-red)";
-                telemetry.innerText = "⚠️ SYSTEM GAPS IDENTIFIED IN THEORY BLOCK";
-            }}
-            const reviewBox = document.getElementById('review-container');
-            reviewBox.innerHTML = '';
-            if (score === database.length) {{
-                reviewBox.innerHTML = '<p style="text-align:center; color:var(--correct-green); font-size:14px;">Flawless diagnostic loop run. Core logic verified.</p>';
-            }} else {{
-                reviewBox.innerHTML = '<h4 style="font-size:13px; margin-bottom:5px; color:var(--text-muted);">Targeted Master Review Checklist:</h4>';
-                missedReport.forEach(item => {{
-                    const div = document.createElement('div');
-                    div.className = 'review-item';
-                    div.innerHTML = `<div style="font-weight:bold; margin-bottom:4px;">${{item.q}}</div><div style="color:var(--correct-green)">🔧 Target Blueprint: ${{item.correct}}</div>`;
-                    reviewBox.appendChild(div);
-                }});
-            }}
-        }}
-
-        function restartRig() {{
-            currentIdx = 0; score = 0; missedReport = [];
-            document.getElementById('end-screen').classList.add('hidden');
-            document.getElementById('rig-splash-screen').classList.remove('hidden');
         }}
     </script>
 </body>
@@ -454,12 +428,12 @@ def generate_html():
     
     with open(output_path, 'w') as f:
         f.write(html_content)
-    print("\n⚡️ SHATTERSCAN EXTENDED CORE PACKED: Multi-module asset matrix expansion complete.")
+    print("\n⚡ INSTRUMENT GAUGE UPGRADE PACKED: High-tech dials compiled successfully.")
 
     zip_name = 'A6_Master_Study_Pack.zip'
     with zipfile.ZipFile(zip_name, 'w') as zipf:
         zipf.write(output_path, os.path.basename(output_path))
-    print(f"📦 PACKAGING COMPLETE: Fresh master archive generated successfully.")
+    print(f"📦 PACKAGING COMPLETE: Fresh master storefront bundle generated successfully.")
 
 if __name__ == '__main__':
     generate_html()
