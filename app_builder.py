@@ -41,7 +41,7 @@ def generate_html():
         }}
         .mainframe {{
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             background: var(--card-bg);
             border-radius: 12px;
             border: 1px solid #2d3748;
@@ -82,7 +82,7 @@ def generate_html():
         .tab-btn:hover {{ color: var(--text-main); background: rgba(255,255,255,0.02); }}
         .tab-btn.active {{ color: var(--blue-glow); background: var(--card-bg); border-bottom: 2px solid var(--blue-prime); }}
         
-        .workspace {{ padding: 20px; min-height: 400px; }}
+        .workspace {{ padding: 20px; min-height: 450px; }}
         .tab-content {{ display: none; }}
         .tab-content.active {{ display: block; }}
         
@@ -138,9 +138,11 @@ def generate_html():
         .btn:hover {{ background: #1976D2; }}
         .hidden {{ display: none !important; }}
         
-        .list-container {{ display: flex; flex-direction: column; gap: 10px; }}
-        .list-item {{ background: var(--panel-dark); border: 1px solid #2d3748; padding: 12px; border-radius: 6px; }}
-        .list-header {{ font-weight: bold; font-family: monospace; color: var(--blue-glow); margin-bottom: 4px; }}
+        .list-container {{ display: flex; flex-direction: column; gap: 12px; }}
+        .list-item {{ background: var(--panel-dark); border: 1px solid #2d3748; padding: 15px; border-radius: 6px; }}
+        .list-header {{ font-weight: bold; font-family: monospace; color: var(--blue-glow); margin-bottom: 6px; font-size: 15px; }}
+        .step-block {{ margin-left: 10px; margin-top: 8px; font-size: 13px; border-left: 2px solid #2d3748; padding-left: 10px; color: #cbd5e0; }}
+        .step-num {{ color: var(--blue-glow); font-weight: bold; font-family: monospace; }}
         
         .review-item {{ background: #1c1d22; padding: 12px; border-radius: 6px; margin-top: 10px; border-left: 3px solid var(--incorrect-red); font-size: 14px; }}
     </style>
@@ -183,7 +185,7 @@ def generate_html():
             
             <div id="codes-tab" class="tab-content">
                 <div class="search-box">
-                    <input type="text" id="code-search" class="search-input" placeholder="Type DTC (e.g. P0171, P0300)..." onkeyup="searchCodes()">
+                    <input type="text" id="code-search" class="search-input" placeholder="Search Fault Codes (e.g., P0171, P0302, U0100)..." onkeyup="searchCodes()">
                 </div>
                 <div id="code-results" class="list-container"></div>
             </div>
@@ -191,16 +193,38 @@ def generate_html():
             <div id="manual-tab" class="tab-content">
                 <div class="list-container">
                     <div class="list-item">
-                        <div class="list-header">⚡️ CIRCUIT VOLTAGE DROP TESTING</div>
-                        <p style="font-size:14px; line-height:1.4; color:#cbd5e0;">Voltage drop tests must be conducted with the circuit completely connected, operational, and loaded. Disconnecting components reveals open-circuit potential voltage, masking resistance issues. Max target limits across structural connectors should not exceed 0.1V - 0.2V.</p>
+                        <div class="list-header">🔧 CIRCUIT VOLTAGE DROP METHODOLOGY (LOADED)</div>
+                        <p style="font-size:13px; color:var(--text-muted);">Isolates high resistance in wiring, connections, or switches without taking the harness apart.</p>
+                        <div class="step-block">
+                            <p><span class="step-num">01.</span> Set DMM to DC Volts ($V$). Do NOT disconnect any connectors.</p>
+                            <p><span class="step-num">02.</span> Power up the circuit and engage the component load (ON position).</p>
+                            <p><span class="step-num">03.</span> Connect the RED lead to the source side of the connection being verified.</p>
+                            <p><span class="step-num">04.</span> Connect the BLACK lead to the load side of the same connection block.</p>
+                            <p><span class="step-num">05.</span> Read the display. A perfect copper junction shows less than $0.1\text{V}$. If it reads above $0.2\text{V}$, high resistance is present inside that connection junction.</p>
+                        </div>
                     </div>
+                    
                     <div class="list-item">
-                        <div class="list-header">🌐 DIFFERENTIAL CAN-BUS NETWORKS</div>
-                        <p style="font-size:14px; line-height:1.4; color:#cbd5e0;">Controller Area Networks communicate via mirrored differential signals on CAN-High and CAN-Low lines. Standard nominal voltage lines map out-of-phase configurations to actively suppress noise. A total loop check across data pins must read exactly 60 Ohms with terminal resistors aligned in parallel.</p>
+                        <div class="list-header">🔧 DIGITAL FUSE VOLTAGE DROP PARASITIC DRAW RUN</div>
+                        <p style="font-size:13px; color:var(--text-muted);">Locates module battery drain without waking up the vehicle's network modules.</p>
+                        <div class="step-block">
+                            <p><span class="step-num">01.</span> Set DMM to DC Millivolts ($mV$). Key off, doors latched, wait 45 minutes for full network sleep mode.</p>
+                            <p><span class="step-num">02.</span> Touch DMM test probes directly across the two small metal test tabs on the back of the fuse.</p>
+                            <p><span class="step-num">03.</span> Note the $mV$ reading. A reading of $0.0mV$ indicates zero current flow through that branch circuit.</p>
+                            <p><span class="step-num">04.</span> If millivolts are detected, cross-reference the $mV$ reading with an industry standard fuse conversion chart for that specific fuse type (Mini, ATO, Maxi) to get the exact milliamp parasitic draw.</p>
+                        </div>
                     </div>
+
                     <div class="list-item">
-                        <div class="list-header">🔋 ALTERNATOR AC RIPPLE ISOLATION</div>
-                        <p style="font-size:14px; line-height:1.4; color:#cbd5e0;">A shorted or leaking internal rectifier diode introduces alternating current (AC) anomalies into the clean direct current (DC) system block. This produces electronic noise that compromises communication modules. Test limits using a standard DMM set to AC Volts should stay well below 50mV.</p>
+                        <div class="list-header">🔧 CONTROLLER AREA NETWORK (CAN) RESISTANCE BENCH CHECK</div>
+                        <p style="font-size:13px; color:var(--text-muted);">Verifies data bus wire integrity and matching terminating resistor loops.</p>
+                        <div class="step-block">
+                            <p><span class="step-num">01.</span> Disconnect the negative battery cable to clear floating voltage potentials from the data network lines.</p>
+                            <p><span class="step-num">02.</span> Set DMM to Ohms ($\Omega$). Access the DLC (Data Link Connector) port frame.</p>
+                            <p><span class="step-num">03.</span> Connect test leads across Pin 6 (CAN High) and Pin 14 (CAN Low).</p>
+                            <p><span class="step-num">04.</span> Nominal reading must be exactly $60\,\Omega$ ($120\,\Omega$ resistors in parallel loop configuration).</p>
+                            <p><span class="step-num">05.</span> A reading of $120\,\Omega$ indicates an open circuit in one of the terminal resistor modules or a severed wire branch.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -252,11 +276,16 @@ def generate_html():
             evt.currentTarget.classList.add('active');
         }}
 
+        // Expanded Heavy-Duty Code Library Data Asset Matrix
         const codeLibrary = [
-            {{ code: "P0171", desc: "System Too Lean (Bank 1)", symp: "MIL Illuminated, engine hesitation, rough idle.", cause: "Vacuum leaks, unmetered air past MAF sensor, weak fuel pump delivery, clogged injectors." }},
-            {{ code: "P0300", desc: "Random/Multiple Cylinder Misfire Detected", symp: "Flashing Check Engine Light, severe engine stumble, raw fuel odor.", cause: "Bad ignition coils, worn spark plugs, low cylinder compression, localized fuel starvation." }},
-            {{ code: "P0102", desc: "Mass Air Flow (MAF) Circuit Low Input", symp: "Stalling on start, poor acceleration, bad fuel economy.", cause: "Contaminated sensor hot-wire, damaged wiring connector pins, open ground." }},
-            {{ code: "P0562", desc: "System Voltage Low", symp: "Dim dash lights, erratic transmission shifts, module network dropouts.", cause: "Failing alternator field circuit, loose drive belt, corroded main ground junctions." }}
+            {{ code: "P0171", desc: "System Too Lean (Bank 1)", symp: "MIL Illuminated, lean hesitation, rough idle, fuel trims above +15%.", cause: "Vacuum distribution leaks, unmetered air leaking past MAF boot, weak fuel pump delivery, or restricted fuel injectors." }},
+            {{ code: "P0174", desc: "System Too Lean (Bank 2)", symp: "Engine sag under load, lazy oxygen sensor tracking, surging cruise speeds.", cause: "Intake manifold gasket leakage specific to Bank 2 plenum base, contaminated fuel distribution block modules." }},
+            {{ code: "P0300", desc: "Random/Multiple Cylinder Misfire Detected", symp: "Flashing Check Engine Light, severe engine rumble, catalytic converter overheating.", cause: "Fluctuating system fuel pressure delivery, broad vacuum leak distributions, bad batch fuel." }},
+            {{ code: "P0302", desc: "Cylinder 2 Misfire Detected", symp: "Rhythmic engine stumble, unburned fuel odor exiting tailpipe.", cause: "Defective Cylinder 2 secondary ignition coil pack, fouled plug gap, shorted driver circuit inside PCM, or dead cylinder injector coil." }},
+            {{ code: "P0420", desc: "Catalytic Converter System Efficiency Below Threshold (Bank 1)", symp: "None or minor tailpipe odor, failed emissions probe readings.", cause: "Exhaust leaks upstream of converter, oil contamination from leaking valve guide seals, or degraded internal catalyst substrate block." }},
+            {{ code: "P0562", desc: "System Voltage Low", symp: "Dim dash layouts, erratic transmission shift delays, global module network drops.", cause: "Failing alternator internal field regulator, slip ring brush wear, loose belt, corroded main power cables." }},
+            {{ code: "U0100", desc: "Lost Communication With ECM/PCM", symp: "No-crank condition, instrument cluster instruments freeze, absolute scan data link loss.", cause: "Open or shorted network wiring trunk line, blown electronic engine control module main fuse link, or blown ground strap." }},
+            {{ code: "U0155", desc: "Lost Communication With Instrument Panel Cluster (IPC) Control Module", symp: "Gauge pointers freeze at zero position, warning lights illuminate, odometer displays dashes.", cause: "Loose connector pins on back of dashboard frame cluster layout, data bus branch line shorted to ground." }}
         ];
 
         function searchCodes() {{
@@ -277,8 +306,8 @@ def generate_html():
                 div.className = 'list-item';
                 div.innerHTML = `
                     <div class="list-header">⚠️ ${{item.code}} - ${{item.desc}}</div>
-                    <div style="font-size:13px; margin: 4px 0;"><span style="color:var(--text-muted);">Symptom:</span> ${{item.symp}}</div>
-                    <div style="font-size:13px;"><span style="color:var(--blue-glow);">Suspected Faults:</span> ${{item.cause}}</div>
+                    <div style="font-size:13px; margin: 4px 0;"><span style="color:var(--text-muted); font-weight:bold;">Symptom:</span> ${{item.symp}}</div>
+                    <div style="font-size:13px;"><span style="color:var(--blue-glow); font-weight:bold;">Suspected Fault Side:</span> ${{item.cause}}</div>
                 `;
                 container.appendChild(div);
             }});
@@ -401,12 +430,12 @@ def generate_html():
     
     with open(output_path, 'w') as f:
         f.write(html_content)
-    print("\n⚡️ SHATTERSCAN CORE INITIALIZED: Rebranding execution complete.")
+    print("\n⚡️ SHATTERSCAN DATA CORE PACKED: Heavy data blocks compiled successfully.")
 
     zip_name = 'A6_Master_Study_Pack.zip'
     with zipfile.ZipFile(zip_name, 'w') as zipf:
         zipf.write(output_path, os.path.basename(output_path))
-    print(f"📦 PACKAGING COMPLETE: {zip_name} stored in output bay.")
+    print(f"📦 PACKAGING COMPLETE: {zip_name} shipped to output warehouse.")
 
 if __name__ == '__main__':
     generate_html()
