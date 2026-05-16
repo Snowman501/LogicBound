@@ -17,20 +17,27 @@ def generate_html():
     <title>ShatterScan Core: Production Diagnostic Terminal</title>
     <style>
         :root {{
-            --bg-dark: #0f0f12;
-            --card-bg: #16161a;
-            --panel-dark: #0a0a0c;
+            --bg-dark: #0a0a0d;
+            --card-bg: rgba(22, 22, 26, 0.85);
+            --panel-dark: #050507;
             --blue-prime: #007acc;
             --blue-glow: #00a2ff;
             --text-main: #e2e8f0;
-            --text-muted: #718096;
+            --text-muted: #64748b;
             --correct-green: #38a169;
             --incorrect-red: #e53e3e;
             --amber-warn: #dd6b20;
+            --border-glow: rgba(0, 162, 255, 0.15);
         }}
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
         body {{
             background-color: var(--bg-dark);
+            /* NextGen Deep Radial Workspace Blend with Micro Dot Matrix Overlay */
+            background-image: 
+                radial-gradient(circle at center, #111b2d 0%, #06080d 100%),
+                radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px;
+            background-attachment: fixed;
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             padding: 10px;
@@ -43,9 +50,11 @@ def generate_html():
             width: 100%;
             max-width: 650px;
             background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
-            border: 1px solid #2d3748;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.7);
+            border: 1px solid rgba(0, 162, 255, 0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(0, 162, 255, 0.05);
             overflow: hidden;
             margin-top: 10px;
         }}
@@ -55,67 +64,70 @@ def generate_html():
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #2d3748;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }}
-        .header-title {{ font-size: 18px; font-weight: bold; color: var(--blue-glow); letter-spacing: 0.75px; font-family: monospace; }}
+        .header-title {{ font-size: 18px; font-weight: bold; color: var(--blue-glow); letter-spacing: 0.75px; font-family: monospace; text-shadow: 0 0 10px rgba(0,162,255,0.4); }}
         .status-pill {{ background: #1c2d24; color: #68d391; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: bold; border: 1px solid #22543d; }}
         
-        .tab-nav {{ display: flex; background: #121215; border-bottom: 1px solid #2d3748; overflow-x: auto; }}
+        .tab-nav {{ display: flex; background: #0c0d10; border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }}
         .tab-nav.hidden {{ display: none !important; }}
         .tab-btn {{ flex: 1; background: none; border: none; color: var(--text-muted); padding: 14px 10px; font-size: 12px; font-weight: bold; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.2s ease; }}
         .tab-btn:hover {{ color: var(--text-main); background: rgba(255,255,255,0.02); }}
-        .tab-btn.active {{ color: var(--blue-glow); background: var(--card-bg); border-bottom: 2px solid var(--blue-prime); }}
+        .tab-btn.active {{ color: var(--blue-glow); background: rgba(22, 22, 26, 0.5); border-bottom: 2px solid var(--blue-glow); text-shadow: 0 0 8px rgba(0,162,255,0.3); }}
         
         .workspace {{ padding: 20px; min-height: 450px; }}
         .tab-content {{ display: none; }}
         .tab-content.active {{ display: block; }}
         
         .telemetry-row {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }}
-        .telemetry-tile {{ background: var(--panel-dark); padding: 12px; border-radius: 6px; border: 1px solid #2d3748; }}
-        .tile-lbl {{ font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }}
+        .telemetry-tile {{ background: rgba(5, 5, 7, 0.6); padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); border-top: 1px solid rgba(0, 162, 255, 0.2); }}
+        .tile-lbl {{ font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }}
         .tile-val {{ font-size: 18px; font-weight: bold; color: var(--text-main); font-family: monospace; }}
         
-        .dtc-box {{ background: #2a1b1b; border: 1px solid #742a2a; border-radius: 6px; padding: 12px; margin-top: 15px; }}
+        .dtc-box {{ background: rgba(42, 27, 27, 0.5); border: 1px solid #742a2a; border-radius: 6px; padding: 12px; margin-top: 15px; }}
         .dtc-title {{ font-size: 13px; font-weight: bold; color: #feb2b2; margin-bottom: 6px; }}
         .dtc-item {{ font-family: monospace; font-size: 13px; color: #fc8181; padding: 4px 0; }}
         
         .search-box {{ display: flex; gap: 10px; margin-bottom: 15px; }}
-        .search-input {{ flex: 1; background: var(--panel-dark); border: 1px solid #4a5568; padding: 12px; color: #fff; border-radius: 6px; font-size: 15px; font-family: monospace; }}
+        .search-input {{ flex: 1; background: var(--panel-dark); border: 1px solid rgba(0, 162, 255, 0.2); padding: 12px; color: #fff; border-radius: 6px; font-size: 15px; font-family: monospace; transition: border 0.2s; }}
+        .search-input:focus {{ outline: none; border-color: var(--blue-glow); box-shadow: 0 0 8px rgba(0,162,255,0.2); }}
         
         .progress-wrapper {{ margin-bottom: 20px; }}
         .progress-text {{ font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 5px; }}
-        .progress-bar {{ width: 100%; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }}
-        .progress-fill {{ height: 100%; width: 0%; background: var(--blue-prime); transition: width 0.3s ease; }}
-        .category-badge {{ display: inline-block; background: #2a2a2a; color: var(--blue-glow); font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; margin-bottom: 10px; text-transform: uppercase; border: 1px solid #333; }}
+        .progress-bar {{ width: 100%; height: 6px; background: #222; border-radius: 3px; overflow: hidden; }}
+        .progress-fill {{ height: 100%; width: 0%; background: var(--blue-glow); transition: width 0.3s ease; }}
+        .category-badge {{ display: inline-block; background: #1e293b; color: var(--blue-glow); font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; margin-bottom: 10px; text-transform: uppercase; border: 1px solid rgba(0,162,255,0.2); }}
         .q-card {{ font-size: 16px; line-height: 1.5; margin-bottom: 20px; min-height: 70px; }}
         .options-grid {{ display: flex; flex-direction: column; gap: 10px; }}
-        .opt-btn {{ width: 100%; background: #22252a; color: var(--text-main); border: 1px solid #3a4454; padding: 14px; border-radius: 6px; font-size: 15px; text-align: left; cursor: pointer; }}
+        .opt-btn {{ width: 100%; background: #1e222b; color: var(--text-main); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 6px; font-size: 15px; text-align: left; cursor: pointer; transition: all 0.15s; }}
+        .opt-btn:hover {{ background: #242936; border-color: var(--blue-glow); box-shadow: 0 0 10px rgba(0,162,255,0.1); }}
         
         .modal {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; padding: 20px; z-index: 1000; }}
-        .modal-content {{ background: var(--card-bg); width: 100%; max-width: 400px; padding: 24px; border-radius: 12px; text-align: left; border: 1px solid #4a5568; }}
+        .modal-content {{ background: #16161a; width: 100%; max-width: 400px; padding: 24px; border-radius: 12px; text-align: left; border: 1px solid rgba(0,162,255,0.3); box-shadow: 0 0 30px rgba(0,162,255,0.15); }}
         .status-title {{ font-size: 22px; font-weight: bold; margin-bottom: 12px; }}
         .status-correct {{ color: var(--correct-green); }}
         .status-incorrect {{ color: var(--incorrect-red); }}
         .explanation {{ font-size: 15px; line-height: 1.5; color: #cbd5e0; margin-bottom: 20px; }}
         
-        .btn {{ width: 100%; background: var(--blue-prime); color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }}
-        .btn:hover {{ background: #1976D2; }}
+        .btn {{ width: 100%; background: linear-gradient(180deg, var(--blue-glow) 0%, var(--blue-prime) 100%); color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,122,204,0.3); transition: all 0.15s; }}
+        .btn:hover {{ filter: brightness(1.1); box-shadow: 0 4px 16px rgba(0,162,255,0.4); }}
         .hidden {{ display: none !important; }}
         
         .list-container {{ display: flex; flex-direction: column; gap: 12px; }}
-        .list-item {{ background: var(--panel-dark); border: 1px solid #2d3748; padding: 15px; border-radius: 6px; }}
+        .list-item {{ background: rgba(5, 5, 7, 0.4); border: 1px solid rgba(255,255,255,0.05); border-left: 3px solid var(--blue-prime); padding: 15px; border-radius: 6px; }}
         .list-header {{ font-weight: bold; font-family: monospace; color: var(--blue-glow); margin-bottom: 6px; font-size: 15px; }}
-        .step-block {{ margin-left: 10px; margin-top: 8px; font-size: 13px; border-left: 2px solid #2d3748; padding-left: 10px; color: #cbd5e0; }}
+        .step-block {{ margin-left: 10px; margin-top: 8px; font-size: 13px; border-left: 2px solid rgba(255,255,255,0.06); padding-left: 10px; color: #cbd5e0; }}
         .step-num {{ color: var(--blue-glow); font-weight: bold; font-family: monospace; }}
-        .translation-text {{ color: #a0aec0; font-style: italic; font-size: 13px; display: block; margin-top: 2px; }}
+        .translation-text {{ color: #94a3b8; font-style: italic; font-size: 13px; display: block; margin-top: 2px; }}
 
         .bench-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }}
-        .bench-input {{ width: 100%; background: var(--panel-dark); border: 1px solid #4a5568; padding: 10px; color: #fff; border-radius: 4px; font-family: monospace; font-size: 14px; margin-top: 4px; }}
+        .bench-input {{ width: 100%; background: var(--panel-dark); border: 1px solid rgba(255,255,255,0.1); padding: 10px; color: #fff; border-radius: 4px; font-family: monospace; font-size: 14px; margin-top: 4px; }}
+        .bench-input:focus {{ outline: none; border-color: var(--blue-glow); }}
         .bench-table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; text-align: left; }}
-        .bench-table th {{ color: var(--blue-glow); border-bottom: 1px solid #4a5568; padding: 6px 4px; }}
-        .bench-table td {{ padding: 6px 4px; border-bottom: 1px solid #2d3748; }}
+        .bench-table th {{ color: var(--blue-glow); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 4px; }}
+        .bench-table td {{ padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.04); }}
         
-        .legal-notice {{ background: #000; border: 1px solid #333; padding: 15px; border-radius: 6px; font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; max-height: 160px; overflow-y: auto; text-align: left; }}
+        .legal-notice {{ background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 15px; border-radius: 6px; font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 20px; max-height: 160px; overflow-y: auto; text-align: left; }}
     </style>
 </head>
 <body>
@@ -299,7 +311,6 @@ def generate_html():
             node.innerText = `Target Current Flow: ${{current}} Amps`;
         }}
 
-        // Expanded Production Database Core Asset Matrix
         const codeLibrary = [
             {{ code: "P0102", desc: "Mass Air Flow (MAF) Circuit Low Input <span class='translation-text'>(The engine's air intake volume sensor signal is way too low, causing severe engine hesitation)</span>", symp: "Engine stalling immediately on start, severe acceleration lag, rich fuel trim correction codes.", cause: "Contaminated sensor hot-wire, unmetered air leaking past a cracked intake boot, open ground circuit, or a shorted 5V sensor reference line." }},
             {{ code: "P0113", desc: "Intake Air Temperature (IAT) Sensor 1 Circuit High Input <span class='translation-text'>(The computer reads cold air temperatures maxed at -40°F due to an open circuit connection)</span>", symp: "Hard starting when cold, poor fuel economy, engine control unit defaults to a backup safe tracking lookup table.", cause: "Broken internal sensor element, open circuit in the signal return wire, or a disconnected wiring harness plug element." }},
@@ -335,10 +346,6 @@ def generate_html():
                 container.appendChild(div);
             }});
         }}
-
-        document.addEventListener("DOMContentLoaded", () => {{
-            document.getElementById('code-search').value = "";
-        }});
 
         const database = {json.dumps(questions)};
         let currentIdx = 0; let score = 0; let missedReport = [];
