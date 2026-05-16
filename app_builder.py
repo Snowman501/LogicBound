@@ -196,11 +196,11 @@ def generate_html():
                         <div class="list-header">🔧 CIRCUIT VOLTAGE DROP METHODOLOGY (LOADED)</div>
                         <p style="font-size:13px; color:var(--text-muted);">Isolates high resistance in wiring, connections, or switches without taking the harness apart.</p>
                         <div class="step-block">
-                            <p><span class="step-num">01.</span> Set DMM to DC Volts ($V$). Do NOT disconnect any connectors.</p>
+                            <p><span class="step-num">01.</span> Set DMM to DC Volts (V). Do NOT disconnect any connectors.</p>
                             <p><span class="step-num">02.</span> Power up the circuit and engage the component load (ON position).</p>
                             <p><span class="step-num">03.</span> Connect the RED lead to the source side of the connection being verified.</p>
                             <p><span class="step-num">04.</span> Connect the BLACK lead to the load side of the same connection block.</p>
-                            <p><span class="step-num">05.</span> Read the display. A perfect copper junction shows less than $0.1\text{V}$. If it reads above $0.2\text{V}$, high resistance is present inside that connection junction.</p>
+                            <p><span class="step-num">05.</span> Read the display. A perfect copper junction shows less than 0.1V. If it reads above 0.2V, high resistance is present inside that connection junction.</p>
                         </div>
                     </div>
                     
@@ -208,10 +208,10 @@ def generate_html():
                         <div class="list-header">🔧 DIGITAL FUSE VOLTAGE DROP PARASITIC DRAW RUN</div>
                         <p style="font-size:13px; color:var(--text-muted);">Locates module battery drain without waking up the vehicle's network modules.</p>
                         <div class="step-block">
-                            <p><span class="step-num">01.</span> Set DMM to DC Millivolts ($mV$). Key off, doors latched, wait 45 minutes for full network sleep mode.</p>
+                            <p><span class="step-num">01.</span> Set DMM to DC Millivolts (mV). Key off, doors latched, wait 45 minutes for full network sleep mode.</p>
                             <p><span class="step-num">02.</span> Touch DMM test probes directly across the two small metal test tabs on the back of the fuse.</p>
-                            <p><span class="step-num">03.</span> Note the $mV$ reading. A reading of $0.0mV$ indicates zero current flow through that branch circuit.</p>
-                            <p><span class="step-num">04.</span> If millivolts are detected, cross-reference the $mV$ reading with an industry standard fuse conversion chart for that specific fuse type (Mini, ATO, Maxi) to get the exact milliamp parasitic draw.</p>
+                            <p><span class="step-num">03.</span> Note the mV reading. A reading of 0.0mV indicates zero current flow through that branch circuit.</p>
+                            <p><span class="step-num">04.</span> If millivolts are detected, cross-reference the mV reading with an industry standard fuse conversion chart for that specific fuse type (Mini, ATO, Maxi) to get the exact milliamp parasitic draw.</p>
                         </div>
                     </div>
 
@@ -220,10 +220,10 @@ def generate_html():
                         <p style="font-size:13px; color:var(--text-muted);">Verifies data bus wire integrity and matching terminating resistor loops.</p>
                         <div class="step-block">
                             <p><span class="step-num">01.</span> Disconnect the negative battery cable to clear floating voltage potentials from the data network lines.</p>
-                            <p><span class="step-num">02.</span> Set DMM to Ohms ($\Omega$). Access the DLC (Data Link Connector) port frame.</p>
+                            <p><span class="step-num">02.</span> Set DMM to Ohms (Ω). Access the DLC (Data Link Connector) port frame.</p>
                             <p><span class="step-num">03.</span> Connect test leads across Pin 6 (CAN High) and Pin 14 (CAN Low).</p>
-                            <p><span class="step-num">04.</span> Nominal reading must be exactly $60\,\Omega$ ($120\,\Omega$ resistors in parallel loop configuration).</p>
-                            <p><span class="step-num">05.</span> A reading of $120\,\Omega$ indicates an open circuit in one of the terminal resistor modules or a severed wire branch.</p>
+                            <p><span class="step-num">04.</span> Nominal reading must be exactly 60 Ω (Two 120 Ω resistors in parallel loop configuration).</p>
+                            <p><span class="step-num">05.</span> A reading of 120 Ω indicates an open circuit in one of the terminal resistor modules or a severed wire branch.</p>
                         </div>
                     </div>
                 </div>
@@ -276,7 +276,6 @@ def generate_html():
             evt.currentTarget.classList.add('active');
         }}
 
-        // Expanded Heavy-Duty Code Library Data Asset Matrix
         const codeLibrary = [
             {{ code: "P0171", desc: "System Too Lean (Bank 1)", symp: "MIL Illuminated, lean hesitation, rough idle, fuel trims above +15%.", cause: "Vacuum distribution leaks, unmetered air leaking past MAF boot, weak fuel pump delivery, or restricted fuel injectors." }},
             {{ code: "P0174", desc: "System Too Lean (Bank 2)", symp: "Engine sag under load, lazy oxygen sensor tracking, surging cruise speeds.", cause: "Intake manifold gasket leakage specific to Bank 2 plenum base, contaminated fuel distribution block modules." }},
@@ -418,6 +417,7 @@ def generate_html():
         function restartRig() {{
             currentIdx = 0; score = 0; missedReport = [];
             document.getElementById('end-screen').classList.add('hidden');
+            document.getElementById('splash-screen').classList.open;
             document.getElementById('splash-screen').classList.remove('hidden');
         }}
     </script>
@@ -430,7 +430,7 @@ def generate_html():
     
     with open(output_path, 'w') as f:
         f.write(html_content)
-    print("\n⚡️ SHATTERSCAN DATA CORE PACKED: Heavy data blocks compiled successfully.")
+    print("\n⚡️ SHATTERSCAN DATA CORE SECURED: String layout formatting fault bypass successful.")
 
     zip_name = 'A6_Master_Study_Pack.zip'
     with zipfile.ZipFile(zip_name, 'w') as zipf:
